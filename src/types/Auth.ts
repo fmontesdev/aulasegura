@@ -1,5 +1,5 @@
-import { User } from './user';
-import { Department } from './department';
+import { User } from './User';
+import { Department } from './Department';
 
 // Contexto de autenticación
 export interface AuthContextType {

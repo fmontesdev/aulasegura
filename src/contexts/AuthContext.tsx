@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter, useSegments } from 'expo-router';
-import { User } from '../types/user';
+import { User } from '../types/User';
 import { authService } from '../services/authService';
-import { AuthContextType } from '../types/auth';
+import { AuthContextType } from '../types/Auth';
 
 // Contexto de autenticación
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

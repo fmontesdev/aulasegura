@@ -4,8 +4,8 @@
 
 import apiService from './apiService';
 import tokenService from './tokenService';
-import { User } from '../types/user';
-import { AuthResponse, LoginRequest, ChangePasswordRequest } from '../types/auth';
+import { User } from '../types/User';
+import { AuthResponse, LoginRequest, ChangePasswordRequest } from '../types/Auth';
 
 export const authService = {
   // Inicia sesión con email y contraseña

@@ -6,10 +6,7 @@ import { useFonts, Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from '@
 import { lightTheme } from '../theme';
 import { AuthProvider } from '../contexts/AuthContext';
 
-/**
-* Layout raíz
-* Configura los providers globales y la navegación
-*/
+// Layout raíz. Configura los providers globales y la navegación
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,

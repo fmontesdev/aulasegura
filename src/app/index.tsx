@@ -2,10 +2,7 @@ import { Redirect } from 'expo-router';
 import { useAuth } from '../hooks/useAuth';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
-/**
- * Ruta raíz de la aplicación
- * Verifica autenticación y redirige a /home o /login
- */
+// Ruta raíz de la aplicación. Verifica autenticación y redirige a /home o /login
 export default function Index() {
   const { isAuthenticated, isLoading } = useAuth();
 

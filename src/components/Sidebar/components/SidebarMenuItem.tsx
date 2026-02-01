@@ -76,7 +76,7 @@ export function SidebarMenuItem({ item, isCollapsed, isActive, onPress }: Sideba
 const styles = StyleSheet.create({
   menuItem: {
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 18,
     marginVertical: 1,
     position: 'relative',
   },

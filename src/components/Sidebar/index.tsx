@@ -38,7 +38,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       style={[
         styles.container,
         {
-          width: isCollapsed ? 70 : 250,
+          width: isCollapsed ? 64 : 250,
           backgroundColor: theme.colors.primary,
           borderRightColor: theme.colors.outlineVariant,
         },
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 16,
+    paddingLeft: 14,
     paddingRight: 11,
     borderBottomWidth: 1,
     minHeight: 64,

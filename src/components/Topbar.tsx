@@ -49,7 +49,7 @@ export default function Topbar({ sidebarCollapsed }: TopbarProps) {
         {
           backgroundColor: theme.colors.surface,
           borderBottomColor: theme.colors.outlineVariant,
-          marginLeft: Platform.OS === 'web' ? (sidebarCollapsed ? 80 : 280) : 0,
+          marginLeft: Platform.OS === 'web' ? (sidebarCollapsed ? 64 : 250) : 0,
         },
       ]}
     >

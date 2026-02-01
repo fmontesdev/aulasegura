@@ -37,7 +37,7 @@ export default function AppLayout() {
           style={[
             styles.contentArea,
             {
-              marginLeft: Platform.OS === 'web' ? (sidebarCollapsed ? 80 : 280) : 0,
+              marginLeft: Platform.OS === 'web' ? (sidebarCollapsed ? 64 : 250) : 0,
               marginTop: Platform.OS === 'web' ? 64 : 0,
             },
           ]}

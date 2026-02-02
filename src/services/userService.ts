@@ -2,7 +2,7 @@
  * Service para operaciones CRUD de usuarios
  */
 
-import { User, UpdateUserData, DeleteUserResponse } from '../types/User';
+import { User, UpdateUserData, DeleteUserResponse, CreateUserData } from '../types/User';
 import apiService from './apiService';
 
 export const userService = {
@@ -14,6 +14,11 @@ export const userService = {
   // Obtiene un usuario por su ID
   async getUserById(userId: string): Promise<User> {
     return apiService.get<User>(`/users/${userId}`);
+  },
+
+  // Crea un nuevo usuario
+  async createUser(data: CreateUserData): Promise<User> {
+    return apiService.post<User>('/auth/register', data);
   },
 
   // Actualiza un usuario por su ID

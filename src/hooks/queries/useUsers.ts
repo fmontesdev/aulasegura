@@ -4,7 +4,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userService } from '../../services/userService';
-import { User, UpdateUserData } from '../../types/User';
+import { User, UpdateUserData, CreateUserData } from '../../types/User';
 
 // Keys para el caché de React Query
 export const userKeys = {
@@ -31,6 +31,26 @@ export function useUser(userId?: string, enabled: boolean = true) {
     queryFn: () => userService.getUserById(userId!),
     enabled: !!userId && enabled,
     staleTime: 1000 * 60 * 5, // 5 minutos (detalles cambian menos frecuentemente)
+  });
+}
+
+// Hook para crear un usuario
+// Invalida automáticamente el caché de usuarios tras la creación
+export function useCreateUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateUserData) => userService.createUser(data),
+    onSuccess: (newUser) => {
+      // Añade el nuevo usuario al caché de la lista
+      queryClient.setQueryData<User[]>(userKeys.lists(), (oldUsers) => {
+        if (!oldUsers) return [newUser];
+        return [...oldUsers, newUser];
+      });
+
+      // Invalida queries relacionadas para forzar refetch si es necesario
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
   });
 }
 

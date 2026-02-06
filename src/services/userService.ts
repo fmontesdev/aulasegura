@@ -12,15 +12,11 @@ export const userService = {
     
     if (filters?.page) params.append('page', filters.page.toString());
     if (filters?.limit) params.append('limit', filters.limit.toString());
-    if (filters?.fullName) params.append('fullName', filters.fullName);
-    if (filters?.email) params.append('email', filters.email);
-    if (filters?.roles) {
-      const rolesArray = Array.isArray(filters.roles) ? filters.roles : [filters.roles];
-      rolesArray.forEach(role => params.append('roles', role));
+    
+    // Filtros híbridos como string separado por comas
+    if (filters?.filters && filters.filters.length > 0) {
+      params.append('filters', filters.filters.join(','));
     }
-    if (filters?.departmentId) params.append('departmentId', filters.departmentId.toString());
-    if (filters?.state) params.append('state', filters.state);
-    if (filters?.search) params.append('search', filters.search);
     
     const queryString = params.toString();
     const url = queryString ? `/users?${queryString}` : '/users';

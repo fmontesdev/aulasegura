@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { Slot } from 'expo-router';
 import { useAppTheme } from '../../theme';
+import { FilterProvider } from '../../contexts/FilterContext';
 import Sidebar from '../../components/Sidebar';
 import Topbar from '../../components/Topbar';
 
@@ -20,34 +21,36 @@ export default function AppLayout() {
   }, [width]);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      {/* Sidebar */}
-      <Sidebar
-        isCollapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
+    <FilterProvider>
+      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        {/* Sidebar */}
+        <Sidebar
+          isCollapsed={sidebarCollapsed}
+          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        />
 
-      {/* Main Content Area */}
-      <View style={styles.mainContent}>
-        {/* Topbar */}
-        <Topbar sidebarCollapsed={sidebarCollapsed} />
+        {/* Main Content Area */}
+        <View style={styles.mainContent}>
+          {/* Topbar */}
+          <Topbar sidebarCollapsed={sidebarCollapsed} />
 
-        {/* Content - Aquí se renderizan las rutas hijas */}
-        <ScrollView
-          style={[
-            styles.contentArea,
-            {
-              marginLeft: Platform.OS === 'web' ? (sidebarCollapsed ? 64 : 250) : 0,
-              marginTop: Platform.OS === 'web' ? 64 : 0,
-            },
-          ]}
-          contentContainerStyle={styles.contentContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          <Slot />
-        </ScrollView>
+          {/* Content - Aquí se renderizan las rutas hijas */}
+          <ScrollView
+            style={[
+              styles.contentArea,
+              {
+                marginLeft: Platform.OS === 'web' ? (sidebarCollapsed ? 64 : 250) : 0,
+                marginTop: Platform.OS === 'web' ? 64 : 0,
+              },
+            ]}
+            contentContainerStyle={styles.contentContainer}
+            showsVerticalScrollIndicator={false}
+          >
+            <Slot />
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </FilterProvider>
   );
 }
 

@@ -48,12 +48,7 @@ export interface PaginatedUsers {
 export interface UsersFilters {
   page?: number;
   limit?: number;
-  fullName?: string;
-  email?: string;
-  roles?: RoleName | RoleName[];
-  departmentId?: number;
-  state?: UserState;
-  search?: string;
+  filters?: string[]; // Filtros híbridos: ["juan", "rol:admin", "email:@gmail.com"]
 }
 
 // Datos para crear un usuario

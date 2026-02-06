@@ -19,10 +19,25 @@ export default function UsersScreen() {
   const router = useRouter();
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentLimit, setCurrentLimit] = useState(10);
 
   // Hook de TanStack Query para obtener todos los usuarios
-  const { data: users, isLoading, error, isFetching, refetch } = useUsers();
+  const { data: usersResponse, isLoading, error, isFetching, refetch } = useUsers({page: currentPage, limit: currentLimit});
   const deleteUser = useDeleteUser();
+
+  // Extraer datos y metadata de la respuesta paginada
+  const users = usersResponse?.data || [];
+  const pagination = usersResponse?.meta;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleLimitChange = (limit: number) => {
+    setCurrentLimit(limit);
+    setCurrentPage(1); // Reset a página 1 cuando cambia el límite
+  };
 
   const handleEdit = (user: User) => {
     router.push(`/users/${user.userId}`);
@@ -103,9 +118,13 @@ export default function UsersScreen() {
       </View>
 
       <DataTable
-        data={users || []}
+        data={users}
         columns={columns}
         keyExtractor={(user) => user.userId}
+        pagination={pagination}
+        onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
+        limitOptions={[5, 10, 20, 50]}
         renderRow={(user) => (
           <>
             {/* Columna de usuario */}

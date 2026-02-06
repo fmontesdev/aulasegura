@@ -1,8 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { View, StyleSheet, FlatList, RefreshControl, Pressable } from 'react-native';
+import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { Text } from 'react-native-paper';
-import { useAppTheme } from '../theme';
-import { StyledCard } from './StyledCard';
+import { useAppTheme } from '../../theme';
+import { StyledCard } from '../StyledCard';
+import { Pagination } from '../../types/User';
+import { DataTableHeader } from './components/DataTableHeader';
+import { DataTableFooter } from './components/DataTableFooter';
+import { DataTableRow } from './components/DataTableRow';
 
 export interface ColumnConfig<T> {
   key: string;
@@ -22,6 +26,10 @@ export interface DataTableProps<T> {
   emptyMessage?: string;
   defaultSortKey?: string;
   defaultSortOrder?: 'asc' | 'desc';
+  pagination?: Pagination;
+  onPageChange?: (page: number) => void;
+  onLimitChange?: (limit: number) => void;
+  limitOptions?: number[];
 }
 
 export function DataTable<T>({
@@ -34,11 +42,14 @@ export function DataTable<T>({
   emptyMessage = 'No hay datos disponibles',
   defaultSortKey,
   defaultSortOrder = 'asc',
+  pagination,
+  onPageChange,
+  onLimitChange,
+  limitOptions = [5, 10, 20, 50],
 }: DataTableProps<T>) {
   const theme = useAppTheme();
   const [sortField, setSortField] = useState<string | undefined>(defaultSortKey);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(defaultSortOrder);
-  const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
 
   const handleSort = (columnKey: string) => {
     if (sortField === columnKey) {
@@ -88,33 +99,12 @@ export function DataTable<T>({
           data={sortedData}
           keyExtractor={keyExtractor}
           ListHeaderComponent={() => (
-            <View style={[styles.tableHeader, { backgroundColor: theme.colors.tertiary }]}>
-              {columns.map((column) => {
-                const isActive = sortField === column.key;
-                const isHovered = hoveredColumn === column.key;
-                
-                return (
-                  <Pressable
-                    key={column.key}
-                    style={[styles.headerCell, { flex: column.flex }]}
-                    onPress={() => column.sortable !== false && handleSort(column.key)}
-                    onHoverIn={() => column.sortable !== false && setHoveredColumn(column.key)}
-                    onHoverOut={() => setHoveredColumn(null)}
-                    disabled={column.sortable === false}
-                  >
-                    <Text
-                      variant="labelLarge"
-                      style={{
-                        color: theme.colors.onPrimary,
-                        fontWeight: (isHovered || isActive) ? '600' : '500',
-                      }}
-                    >
-                      {column.label} {isActive && (sortOrder === 'asc' ? '↑' : '↓')}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
+            <DataTableHeader
+              columns={columns}
+              sortField={sortField}
+              sortOrder={sortOrder}
+              onSort={handleSort}
+            />
           )}
           refreshControl={
             onRefresh ? (
@@ -127,9 +117,11 @@ export function DataTable<T>({
           }
           contentContainerStyle={styles.listContent}
           renderItem={({ item }) => (
-            <View style={[styles.row, { borderBottomColor: theme.colors.outlineVariant }]}>
-              {renderRow(item)}
-            </View>
+            <DataTableRow
+              item={item}
+              borderBottomColor={theme.colors.outlineVariant}
+              renderRow={renderRow}
+            />
           )}
           ListEmptyComponent={() => (
             <View style={styles.centered}>
@@ -139,6 +131,16 @@ export function DataTable<T>({
             </View>
           )}
         />
+        
+        {/* Footer con paginación */}
+        {pagination && onPageChange && (
+          <DataTableFooter
+            pagination={pagination}
+            onPageChange={onPageChange}
+            onLimitChange={onLimitChange}
+            limitOptions={limitOptions}
+          />
+        )}
       </StyledCard>
     </View>
   );
@@ -158,21 +160,5 @@ const styles = StyleSheet.create({
   tableCard: {
     margin: 0,
     overflow: 'hidden',
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    paddingTop: 14,
-    paddingBottom: 12,
-    paddingHorizontal: 20,
-  },
-  headerCell: {
-    justifyContent: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
   },
 });

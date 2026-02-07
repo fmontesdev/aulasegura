@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useAppTheme } from '../../theme';
 import { StyledCard } from '../StyledCard';
-import { Pagination } from '../../types/User';
+import { Pagination } from '../../types/Pagination';
 import { DataTableHeader } from './components/DataTableHeader';
 import { DataTableFooter } from './components/DataTableFooter';
 import { DataTableRow } from './components/DataTableRow';

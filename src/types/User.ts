@@ -1,4 +1,9 @@
+/**
+ * Tipos para la entidad User (Usuario)
+ */
+
 import { Department } from './Department';
+import { Pagination } from './Pagination';
 
 // Enum de roles disponibles
 export enum RoleName {
@@ -6,12 +11,6 @@ export enum RoleName {
   TEACHER = 'teacher',
   JANITOR = 'janitor',
   SUPPORT_STAFF = 'support_staff',
-}
-
-// Enum de estados de usuario
-export enum UserState {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
 }
 
 // Usuario del sistema
@@ -26,16 +25,6 @@ export interface User {
   validTo?: string | null;
   createdAt?: string;
   department?: Department;
-}
-
-// Metadata de paginación
-export interface Pagination {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-  hasPrevious: boolean;
-  hasNext: boolean;
 }
 
 // Respuesta paginada de usuarios

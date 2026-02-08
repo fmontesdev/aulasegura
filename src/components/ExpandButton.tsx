@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Text, Icon } from 'react-native-paper';
 import { useAppTheme } from '../theme';
 import { addOpacity } from '../utils/colorUtils';
@@ -53,7 +53,7 @@ export function ExpandButton({
   // Determinar el ícono
   const iconName = isExpanded ? 'chevron-up' : 'chevron-down';
 
-  return (
+  const button = (
     <Pressable
       onPress={onToggle}
       onHoverIn={() => setIsHovered(true)}
@@ -72,17 +72,32 @@ export function ExpandButton({
       <Icon source={iconName} size={18} color={textColor} />
     </Pressable>
   );
+
+  // Si está expandido, envolver en un View para forzar salto de línea
+  if (isExpanded) {
+    return (
+      <View style={styles.expandedWrapper}>
+        {button}
+      </View>
+    );
+  }
+
+  return button;
 }
 
 const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 2,
+    paddingVertical: 4,
     paddingLeft: 9,
     paddingRight: 4,
     borderRadius: 15,
     borderWidth: 1,
+  },
+  expandedWrapper: {
+    flexBasis: '100%',
+    alignItems: 'flex-start',
   },
   text: {
     fontWeight: '600',

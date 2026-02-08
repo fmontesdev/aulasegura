@@ -39,7 +39,7 @@ export const getSubjectsColumns = (): ColumnConfig<Subject>[] => [
   {
     key: 'actions',
     label: 'Acciones',
-    flex: 0.25,
+    flex: 0.27,
     sortable: false,
   },
 ];

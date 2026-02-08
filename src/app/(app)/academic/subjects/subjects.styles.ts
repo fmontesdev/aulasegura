@@ -41,13 +41,14 @@ export const styles = StyleSheet.create({
   cellCourses: {
     flex: 1.2,
     justifyContent: 'center',
+    paddingRight: 14,
   },
   cellStatus: {
     flex: 0.4,
     justifyContent: 'center',
   },
   cellActions: {
-    flex: 0.25,
+    flex: 0.27,
     flexDirection: 'row',
     alignItems: 'center',
   },

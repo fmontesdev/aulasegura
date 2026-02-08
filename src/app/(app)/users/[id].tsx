@@ -94,7 +94,7 @@ export default function EditUserScreen() {
           visible={snackbarVisible}
           onDismiss={() => setSnackbarVisible(false)}
           message={snackbarMessage}
-          variant="error"
+          variant={snackbarType}
           action={{
             label: 'Cerrar',
             onPress: () => setSnackbarVisible(false),

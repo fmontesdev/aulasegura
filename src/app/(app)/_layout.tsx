@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Platform, useWindowDimensions } from 'react-native';
-import { Slot } from 'expo-router';
+import { Slot, usePathname } from 'expo-router';
 import { useAppTheme } from '../../theme';
 import { FilterProvider } from '../../contexts/FilterContext';
 import Sidebar from '../../components/Sidebar';
 import Topbar from '../../components/Topbar';
+import { FadeView } from '../../components/FadeView';
 
 export default function AppLayout() {
   const theme = useAppTheme();
+  const pathname = usePathname();
   const { width } = useWindowDimensions();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
@@ -46,7 +48,9 @@ export default function AppLayout() {
             contentContainerStyle={styles.contentContainer}
             showsVerticalScrollIndicator={false}
           >
-            <Slot />
+            <FadeView triggerKey={pathname} duration={150}>
+              <Slot />
+            </FadeView>
           </ScrollView>
         </View>
       </View>

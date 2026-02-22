@@ -2,7 +2,7 @@
  * Hooks de TanStack Query para gestión de asignaturas
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { subjectService } from '../../services/subjectService';
 import { CreateSubjectData, UpdateSubjectData, SubjectsFilters } from '../../types/Subject';
 import { departmentKeys } from './useDepartments';
@@ -22,6 +22,7 @@ export function useSubjects(filters?: SubjectsFilters) {
     queryKey: subjectKeys.list(filters),
     queryFn: () => subjectService.getAllSubjects(filters),
     staleTime: 1000 * 60 * 2, // 2 minutos
+    placeholderData: keepPreviousData,
   });
 }
 

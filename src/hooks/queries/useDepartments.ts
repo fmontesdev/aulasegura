@@ -2,7 +2,7 @@
  * Hooks de TanStack Query para gestión de departamentos
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { departmentService } from '../../services/departmentService';
 import {
   GetDepartmentsParams,
@@ -34,6 +34,7 @@ export function useFilteredDepartments(params: GetDepartmentsParams) {
     queryKey: departmentKeys.list(params),
     queryFn: () => departmentService.getAllDepartmentsWithFilters(params),
     staleTime: 1000 * 60 * 5, // 5 minutos
+    placeholderData: keepPreviousData,
   });
 }
 

@@ -112,34 +112,34 @@ export function DataTable<T>({
           />
         </View>
         <FlatList
-          data={sortedData}
-          keyExtractor={keyExtractor}
-          style={flatListMaxHeight ? { maxHeight: flatListMaxHeight } : undefined}
-          refreshControl={
-            onRefresh ? (
-              <RefreshControl
-                refreshing={isLoading}
-                onRefresh={onRefresh}
-                colors={[theme.colors.secondary]}
+            data={sortedData}
+            keyExtractor={keyExtractor}
+            style={flatListMaxHeight ? { maxHeight: flatListMaxHeight } : undefined}
+            refreshControl={
+              onRefresh ? (
+                <RefreshControl
+                  refreshing={isLoading}
+                  onRefresh={onRefresh}
+                  colors={[theme.colors.secondary]}
+                />
+              ) : undefined
+            }
+            contentContainerStyle={styles.listContent}
+            renderItem={({ item }) => (
+              <DataTableRow
+                item={item}
+                borderBottomColor={theme.colors.outlineVariant}
+                renderRow={renderRow}
               />
-            ) : undefined
-          }
-          contentContainerStyle={styles.listContent}
-          renderItem={({ item }) => (
-            <DataTableRow
-              item={item}
-              borderBottomColor={theme.colors.outlineVariant}
-              renderRow={renderRow}
-            />
-          )}
-          ListEmptyComponent={() => (
-            <View style={styles.centered}>
-              <Text variant="bodyLarge" style={{ color: theme.colors.onSurface }}>
-                {emptyMessage}
-              </Text>
-            </View>
-          )}
-        />
+            )}
+            ListEmptyComponent={() => (
+              <View style={styles.centered}>
+                <Text variant="bodyLarge" style={{ color: theme.colors.onSurface }}>
+                  {emptyMessage}
+                </Text>
+              </View>
+            )}
+          />
 
         {/* Footer con paginación */}
         <View onLayout={(e: LayoutChangeEvent) => setHeights(h => ({ ...h, footer: e.nativeEvent.layout.height }))}>

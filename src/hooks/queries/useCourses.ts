@@ -2,7 +2,7 @@
  * Hooks de TanStack Query para gestión de cursos
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { courseService } from '../../services/courseService';
 import { CreateCourseData, UpdateCourseData, CoursesFilters } from '../../types/Course';
 
@@ -21,6 +21,7 @@ export function useCourses(filters?: CoursesFilters) {
     queryKey: courseKeys.list(filters),
     queryFn: () => courseService.getAllCourses(filters),
     staleTime: 1000 * 60 * 2, // 2 minutos
+    placeholderData: keepPreviousData,
   });
 }
 

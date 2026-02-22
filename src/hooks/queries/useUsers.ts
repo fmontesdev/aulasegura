@@ -2,7 +2,7 @@
  * Hooks de TanStack Query para gestión de usuarios
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { userService } from '../../services/userService';
 import { UpdateUserData, CreateUserData, UsersFilters } from '../../types/User';
 import { departmentKeys } from './useDepartments';
@@ -22,6 +22,7 @@ export function useUsers(filters?: UsersFilters) {
     queryKey: userKeys.list(filters),
     queryFn: () => userService.getAllUsers(filters),
     staleTime: 1000 * 60 * 2, // 2 minutos
+    placeholderData: keepPreviousData,
   });
 }
 

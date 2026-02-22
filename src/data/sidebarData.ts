@@ -24,7 +24,9 @@ export const sidebarMenuItemsData: MenuItem[] = [
     id: 'academic',
     label: 'Estructura Académica',
     icon: 'school',
-    route: '/academic/years',
+    route: '/academic/courses',
+    // route: '/academic/years',
+
   },
   {
     id: 'users',

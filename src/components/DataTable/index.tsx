@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet, FlatList, RefreshControl, LayoutChangeEvent } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useAppTheme } from '../../theme';
 import { StyledCard } from '../StyledCard';
@@ -50,6 +50,11 @@ export function DataTable<T>({
   const theme = useAppTheme();
   const [sortField, setSortField] = useState<string | undefined>(defaultSortKey);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(defaultSortOrder);
+  const [heights, setHeights] = useState({ container: 0, header: 0, footer: 0 });
+
+  const flatListMaxHeight = heights.container > 0
+    ? heights.container - heights.header - heights.footer
+    : undefined;
 
   const handleSort = (columnKey: string) => {
     if (sortField === columnKey) {
@@ -93,19 +98,23 @@ export function DataTable<T>({
   }, [data, sortField, sortOrder, columns]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onLayout={(e: LayoutChangeEvent) => setHeights(h => ({ ...h, container: e.nativeEvent.layout.height }))}
+    >
       <StyledCard style={styles.tableCard}>
+        <View onLayout={(e: LayoutChangeEvent) => setHeights(h => ({ ...h, header: e.nativeEvent.layout.height }))}>
+          <DataTableHeader
+            columns={columns}
+            sortField={sortField}
+            sortOrder={sortOrder}
+            onSort={handleSort}
+          />
+        </View>
         <FlatList
           data={sortedData}
           keyExtractor={keyExtractor}
-          ListHeaderComponent={() => (
-            <DataTableHeader
-              columns={columns}
-              sortField={sortField}
-              sortOrder={sortOrder}
-              onSort={handleSort}
-            />
-          )}
+          style={flatListMaxHeight ? { maxHeight: flatListMaxHeight } : undefined}
           refreshControl={
             onRefresh ? (
               <RefreshControl
@@ -131,16 +140,18 @@ export function DataTable<T>({
             </View>
           )}
         />
-        
+
         {/* Footer con paginación */}
-        {pagination && onPageChange && (
-          <DataTableFooter
-            pagination={pagination}
-            onPageChange={onPageChange}
-            onLimitChange={onLimitChange}
-            limitOptions={limitOptions}
-          />
-        )}
+        <View onLayout={(e: LayoutChangeEvent) => setHeights(h => ({ ...h, footer: e.nativeEvent.layout.height }))}>
+          {pagination && onPageChange && (
+            <DataTableFooter
+              pagination={pagination}
+              onPageChange={onPageChange}
+              onLimitChange={onLimitChange}
+              limitOptions={limitOptions}
+            />
+          )}
+        </View>
       </StyledCard>
     </View>
   );

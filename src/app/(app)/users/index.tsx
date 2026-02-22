@@ -231,11 +231,11 @@ export default function UsersScreen() {
             </View>
           </>
         )}
-        isLoading={isFetching}
-        onRefresh={refetch}
-        emptyMessage="No hay usuarios disponibles"
-        defaultSortKey="name"
-      />
+          isLoading={isFetching}
+          onRefresh={refetch}
+          emptyMessage="No hay usuarios disponibles"
+          defaultSortKey="name"
+        />
 
       {/* Dialogo de confirmación para eliminar usuario */}
       <ConfirmDialog

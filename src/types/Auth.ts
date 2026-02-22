@@ -1,5 +1,6 @@
 import { User } from './User';
 import { DepartmentBasic } from './Department';
+import { RoleName } from './User';
 
 // Contexto de autenticación
 export interface AuthContextType {
@@ -20,7 +21,7 @@ export interface AuthResponse {
   lastname: string;
   email: string;
   avatar: string;
-  roles: string[];
+  roles: RoleName[];
   department?: DepartmentBasic;
 }
 

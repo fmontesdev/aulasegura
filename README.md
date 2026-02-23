@@ -15,6 +15,10 @@ El proyecto está dividido en dos aplicaciones independientes:
 | **Backend** | API REST con NestJS y arquitectura limpia | `apps/backend/` |
 | **Frontend** | Dashboard de administración web (React Native Web) | `apps/frontend/` |
 
+### 🌐 Demo en producción
+
+> **https://aulasegura.fmontes.dev/**
+
 ---
 
 ## 🏗️ Arquitectura del Monorepo

@@ -9,6 +9,7 @@ import { QuickActionButton } from '../../components/QuickActionButton';
 import { WidgetCard } from '../../components/WidgetCard';
 import { ReservationItem } from '../../components/ReservationItem';
 import { DeniedAccessItem } from '../../components/DeniedAccessItem';
+import { useActiveUsersCount } from '../../hooks/queries/useUsers';
 import { 
   kpiData as mockKpiData, 
   recentReservations as mockRecentReservations, 
@@ -20,8 +21,16 @@ export default function HomeScreen() {
   const theme = useAppTheme();
   const router = useRouter();
   const { width } = useWindowDimensions();
+  const { data: activeUsersCount } = useActiveUsersCount();
 
+  // Datos dummy para KPIs, reservas, accesos denegados y acciones rápidas
   const kpiData = mockKpiData(theme);
+  // Reemplaza el valor dummy de usuarios activos con el dato real
+  const kpiDataWithRealValues = kpiData.map((kpi) =>
+    kpi.title === 'Usuarios activos'
+      ? { ...kpi, value: activeUsersCount ?? '...' }
+      : kpi
+  );
   const recentReservations = mockRecentReservations;
   const deniedAccess = mockDeniedAccess;
   const quickActions = mockQuickActions(theme);
@@ -62,7 +71,7 @@ export default function HomeScreen() {
 
         {/* KPIs */}
         <View style={styles.kpiContainer}>
-          {kpiData.map((kpi, index) => (
+          {kpiDataWithRealValues.map((kpi, index) => (
             <KPICard
               key={index}
               title={kpi.title}

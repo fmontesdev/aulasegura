@@ -26,6 +26,16 @@ export function useUsers(filters?: UsersFilters) {
   });
 }
 
+// Hook para contar usuarios activos usando el filtro del backend
+export function useActiveUsersCount() {
+  return useQuery({
+    queryKey: userKeys.list({ filters: ['estado:activo'] }),
+    queryFn: () => userService.getAllUsers({ filters: ['estado:activo'] }),
+    staleTime: 1000 * 60 * 5,
+    select: (data) => data.meta.total,
+  });
+}
+
 // Hook para obtener un usuario específico por ID
 export function useUser(userId?: string, enabled: boolean = true) {
   return useQuery({

@@ -104,10 +104,11 @@ npm run web
 ## 📱 Scripts Disponibles
 
 ```bash
-npm start          # Servidor de desarrollo
-npm run web        # Modo web
-npm run android    # Android (futuro)
-npm run ios        # iOS (futuro)
+npm run web          # Servidor de desarrollo (web)
+npm run build:web    # Genera bundle de producción en /dist
+npm start            # Servidor de desarrollo (Expo)
+npm run android      # Android (futuro)
+npm run ios          # iOS (futuro)
 ```
 
 ### Variables de entorno
@@ -118,6 +119,24 @@ Se adjunta `.env.example` con todas las variables necesarias:
 |---|---|---|
 | `EXPO_PUBLIC_NESTJS_API_URL` | URL de la API REST (NestJS) | `http://localhost:8000` |
 | `EXPO_PUBLIC_IMAGE_SERVER_URL` | URL del servidor de imágenes | `http://localhost:8090` |
+
+> ⚠️ Las variables `EXPO_PUBLIC_*` se incrustan en el bundle en tiempo de **build**, no en tiempo de ejecución. Deben estar disponibles al construir la imagen Docker.
+
+## 🐳 Docker (desarrollo)
+
+Levanta el servidor de desarrollo de Expo con hot reload. El código fuente se monta como volumen, por lo que los cambios se reflejan en tiempo real sin reconstruir la imagen.
+
+```bash
+# Primera vez (construye la imagen con las dependencias)
+docker-compose up --build
+
+# Siguientes veces
+docker-compose up
+```
+
+La app queda disponible en `http://localhost:8081`.
+
+> Las variables de entorno se leen automáticamente desde el `.env` local.
 
 ## 🔐 Funcionalidades Implementadas
 
